@@ -79,10 +79,11 @@ def novels_content(url, netloc):
             #     title = title.split('-')[0]
             next_chapter = extract_pre_next_chapter(chapter_url=url, html=str(soup))
             #text 去掉html标签
-            content = [str(i.text) for i in content]
+            # content = [str(i.text) for i in content]
 
             data = {
-                'content': str(''.join(content)),
+                # 'content': str(''.join(content)),
+                'content': content,
                 'next_chapter': next_chapter,
                 'title': title
             }
