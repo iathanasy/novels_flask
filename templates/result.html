@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ novels_name }} - 搜索结果</title>
+    <!-- CSS only -->
+    <link href="https://www.layuicdn.com/layui-v2.5.6/css/layui.css" rel="stylesheet">
+    <link href="{{url_for('static',filename='css/xscss.css')}}" rel="stylesheet">
+</head>
+<body>
+<div class="layui-container">
+  <div class="layui-row">
+      <div class="shop-nav shop-index">
+          <div id="LAY-topbar" style="height: auto;">
+              <form action="/search">
+                <div class="input-search">
+                    <input type="text" placeholder="搜索" name="wd" autocomplete="off" value="{{ novels_name }}">
+                    <button class="layui-btn layui-btn-shop">
+                      <i class="layui-icon layui-icon-search"></i>
+                    </button>
+                </div>
+              </form>
+            </div>
+      </div>
+      <div class="layui-card">
+          <div class="layui-card-header">找到 {{ count }} 条结果（用时{{ time }}s）</div>
+          <div class="layui-card-body">
+              <ul class="layui-list">
+                {%for item in result%}
+                    <li class="layui-elem-field">
+                        <a target="_blank" style="color:#01AAED;" href="/chapter?url={{item.url}}&novels_name={{novels_name}}">{{item.title}}</a>
+                        <div class="netloc">
+                            <span>{{item.netloc}}</span>
+                            <span><a target="_blank" rel="nofollow" href="{{item.url}}">查看源网址</a></span>
+                        </div>
+                        <div class="tags">
+                            {% if item.is_parse %}
+                            <span class="layui-badge layui-bg-green">已解析</span>
+                            {% else %}
+                            <span class="layui-badge layui-bg-gray">未解析</span>
+                            {% endif %}
+                        </div>
+                    </li>
+                {%endfor%}
+              </ul>
+          </div>
+    </div>
+  </div>
+</div>
+
+</body>
+<script type="text/javascript" src="https://www.layuicdn.com/layui-v2.5.6/layui.js"></script>
+</html>

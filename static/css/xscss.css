@@ -1,0 +1,44 @@
+html {
+  font-family: sans-serif;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+.shop-nav .input-search{width: 100%; padding: 30px 0 10px; text-align: center; background-color: #FFF;}
+.shop-nav .input-search > div{position: relative; display: inline-block;}
+.shop-nav .input-search input{vertical-align: middle; width: 500px; height: 40px; background: #eff4f5; border: none; outline: none; padding-left: 10px; border-top-left-radius: 2px; border-bottom-left-radius: 2px;}
+.shop-nav .input-search button.layui-btn-shop{vertical-align: middle; width: 80px; height: 40px; background: #5eba78; border-top-left-radius: 0px; border-bottom-left-radius: 0px;}
+.shop-nav .input-search button.layui-btn-shop i{font-size: 22px; line-height: 40px;}
+.shop-nav .input-search dl{position: relative; text-align: left; font-size: 12px; line-height: 30px; top: 5px; left: 10px;}
+.shop-nav .input-search dl dd, .shop-nav .input-search dl dt{display: inline-block; color: #9495a4;}
+.shop-nav .input-search dl dd a{color: #b3b6b8; margin-right: 10px;}
+.shop-nav .input-search dl dd a:hover{color: #9495a4;}
+.shop-nav .input-search a.userBtn{width: 60px; padding: 0; text-align: center; height: 40px; font-size: 12px; margin-left: 20px;}
+.shop-nav .input-search .layui-container{display: none;}
+.shop-nav .input-search.scroll{position: fixed; top: 60px; z-index: 999; top: 0; padding-top: 10px; box-shadow: 0px 3px 3px rgba(0,0,0,0.15);}
+.shop-nav .input-search.scroll .layui-container{display: block;}
+.shop-nav .input-search.scroll .topbar-logo{display: block; position: absolute; left: 15px; bottom: 5px; z-index: 10;}
+.shop-nav .input-search.scroll>div{display: block;}
+.shop-nav .input-search.scroll>div>*{display: inline-block;}
+.shop-nav .input-search.scroll input{width: 350px;}
+
+
+.netloc {
+    display: block;
+    color: #006621;
+}
+
+.tags {
+    position: relative;
+    margin-top: 5px;
+}
+
+.layui-list{
+    display: block;
+    list-style-type: disc;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 40px;
+}

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ name }} - 内容</title>
+    <!-- CSS only -->
+    <link href="https://www.layuicdn.com/layui-v2.5.6/css/layui.css" rel="stylesheet">
+    <link href="{{url_for('static',filename='css/content.css')}}" rel="stylesheet">
+</head>
+<body>
+
+<div class="container all-content">
+    <input id="content_url" type="hidden" value="{{content_url}}">
+    <input id="url" type="hidden" value="{{url}}">
+    <input id="chapter_url" type="hidden" value="{{chapter_url}}">
+    <input id="novels_name" type="hidden" value="{{novels_name}}">
+    <div class="title">
+        <h2 id="content_name">{{ name }}</h2>
+    </div>
+    <div class="left-bar-list">
+        <div class="left-bar-flag">
+            <a href="/chapter?url={{chapter_url}}&novels_name={{novels_name}}">
+                <span class="glyphicon layui-icon layui-icon-list" aria-hidden="true"></span>
+                <div>目录</div>
+            </a>
+        </div>
+        <div class="left-bar-flag">
+            <a href="javascript:void(0);">
+                <span class="glyphicon layui-icon layui-icon-set-fill" aria-hidden="true"></span>
+                <div>设置</div>
+            </a>
+        </div>
+    </div>
+    <div class="show-content">
+        {{ soup|safe }}
+    </div>
+    <div class="pre_next">
+        {% for v in next_chapter%}
+
+        <a href="/content?url={{next_chapter[v]}}&chapter_url={{chapter_url}}&novels_name={{novels_name}}"
+           class="btn btn-default">
+            {{ v }}
+        </a>
+        {% endfor %}
+    </div>
+</div>
+
+
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="static/js/theme.js"></script>
+<script src="static/js/content.js"></script>
+</body>
+</html>
