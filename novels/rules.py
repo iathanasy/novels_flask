@@ -50,3 +50,33 @@ RULES ={
     "www.xsbiquge.com": Rules("utf-8","https://www.xsbiquge.com",{'id':'list'},{'id':'content'})
 }
 
+
+'''
+最新规则， 只有这里面的网站才返回给页面
+'''
+LATEST_RULES = ['www.biqukan.com',
+                'www.biquge.info',
+                'www.booktxt.net',
+                'www.23txt.com',
+                'www.gdbzkz.com',
+                'www.quanben.net',
+                'www.xsbiquge.com',
+
+                'www.biqugex.com',
+                'www.x23us.com',
+                'www.23us.la',
+                'www.sqsxs.com',
+                'www.nuomi9.com',
+                'www.biquge.info',
+                'www.biquge.tw',
+                'www.qu.la',
+                'www.shuquge.com',
+                'www.jingcaiyuedu.com',
+                'www.xshuyaya.com',
+                ''
+                ]
+
+
+
+# 搜索引擎检索优先级
+ENGINE_PRIORITY = ['360', 'baidu', 'bing']

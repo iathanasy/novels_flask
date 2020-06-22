@@ -1,20 +1,20 @@
 import re
 from operator import itemgetter
 from urllib.parse import urlparse
-import time
 import requests
 from bs4 import BeautifulSoup
 from novels.config import headers
-from novels.rules import RULES
+from novels.rules import RULES,LATEST_RULES
 
 '''
 百度搜索
 '''
 def baidu_so(novels_name):
-    start = time.time()
+
     url = 'http://www.baidu.com/s'
     timeout = 10
-    novels_name = 'intitle:{name} 小说 阅读'.format(name=novels_name)
+    # novels_name = 'intitle:{name} 小说 阅读'.format(name=novels_name)
+    novels_name = novels_name.strip()
     params = {
         'wd': novels_name,
         'rn': 15,
@@ -42,21 +42,19 @@ def baidu_so(novels_name):
         netloc = urlparse(real_str_url).netloc
         # 是否解析
         is_parse = 1 if netloc in RULES.keys() else 0
+        # 是否在规则内
+        is_rules = 1 if netloc in LATEST_RULES else 0
+        if is_rules:
+            ree = {'title':title, 'netloc': netloc, 'url': url, 'is_parse': is_parse}
+            parse_result.append(ree)
 
-        ree = {'title':title, 'netloc': netloc, 'url': url, 'is_parse': is_parse}
-        parse_result.append(ree)
-
-    name = novels_name
-    so_time = '%.2f' % (time.time() - start)
-    count = len(parse_result)
     # 排序
-    result_sorted = sorted(
-        parse_result,
-        reverse=True,
-        key=itemgetter('is_parse'))
+    # result_sorted = sorted(
+    #     parse_result,
+    #     reverse=True,
+    #     key=itemgetter('is_parse'))
 
-    ress = {'name':name, 'so_time': so_time, 'res': result_sorted, 'count': count}
-    return ress
+    return parse_result
 
 
 '''

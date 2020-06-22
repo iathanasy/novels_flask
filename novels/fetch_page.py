@@ -2,17 +2,22 @@
 # -*-coding:utf-8 -*-
 
 import re
+import time
 import urllib.request,urllib.parse
 from operator import itemgetter
 from urllib.parse import urljoin,urlparse
 import requests
+
+from novels.baidu_novles import baidu_so
 from novels.config import headers
 
 from bs4 import BeautifulSoup
-from novels.rules import RULES
+from novels.rules import RULES, ENGINE_PRIORITY
 from novels.extract import extract_pre_next_chapter,extract_chapters
 import sys
 # 最大递归深度 默认999
+from novels.so_novles import so_so
+
 sys.setrecursionlimit(9000000)  # 这里设置大一些
 
 
@@ -30,6 +35,23 @@ def download(url):
     res = requests.get(url, headers=headers, timeout=10)
     encoding = RULES[netloc].encoding
     return res.content.decode(encoding)
+
+# 获取编码格式
+# def get_html_by_requests(url, headers, timeout=15):
+#     """
+#     :param url:
+#     :return:
+#     """
+#     try:
+#         response = requests.get(url=url, headers=headers, verify=False, timeout=timeout)
+#         response.raise_for_status()
+#         content = response.content
+#         charset = cchardet.detect(content)
+#         text = content.decode(charset['encoding'])
+#         return text
+#     except Exception as e:
+#         print(e)
+#         return None
 
 
 # 章节抓取
@@ -119,6 +141,32 @@ def content_write(book_name, chapter_name, content):
         f.write('\n')
         f.write('\n'.join(content))
         f.write('\n')
+
+
+# 搜索
+def do_search(name):
+    start = time.time()
+    result = []
+    for each_engine in ENGINE_PRIORITY:
+        if each_engine == 'baidu':
+            res = baidu_so(name)
+            for r in res:
+                result.append(r)
+            print('baidu',res)
+        if each_engine == '360':
+            res = so_so(name)
+            for r in res:
+                result.append(r)
+            print('360',res)
+
+    so_time = '%.2f' % (time.time() - start)
+
+    new_result = []
+    # 去重
+    for ress in result:
+        if ress not in new_result:
+            new_result.append(ress)
+    return (so_time, new_result)
 
 
 if __name__ == '__main__':

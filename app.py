@@ -1,8 +1,10 @@
+from operator import itemgetter
+
 from urllib.parse import urlparse
-from novels.fetch_page import novels_chapter,novels_content
+from novels.fetch_page import novels_chapter, novels_content, do_search
 from flask import Flask, render_template, request, redirect, jsonify
-from novels.baidu_novles import baidu_so
 from novels.rules import RULES
+
 
 app = Flask(__name__)
 
@@ -14,15 +16,23 @@ def hello_world():
 
 @app.route('/search', methods=["GET"])
 def search():
+
     name = str(request.args.get('wd', '')).strip()
     if not name:
         return render_template('/')
-    result = baidu_so(name)
+
+    result = do_search(name)
+    new_result = result[1]
+    # 排序
+    result_sorted = sorted(
+        new_result,
+        reverse=True,
+        key=itemgetter('is_parse'))
 
     novels_name = name
-    time = result.get('so_time')
-    res = result.get('res')
-    count = result.get('count')
+    time = result[0]
+    res = result_sorted
+    count = len(result_sorted)
     return render_template('result.html',
                            novels_name=novels_name,
                            result=res,
@@ -138,7 +148,6 @@ def content():
         except Exception as e:
             print(e)
             return redirect(book_url)
-
 
 
 '''
