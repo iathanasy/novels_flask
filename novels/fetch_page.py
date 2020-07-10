@@ -10,10 +10,12 @@ import requests
 
 from novels.baidu_novles import baidu_so
 from novels.config import headers
+from novels.config import Config
 
 from bs4 import BeautifulSoup
 from novels.rules import RULES, ENGINE_PRIORITY
 from novels.extract import extract_pre_next_chapter,extract_chapters
+
 import sys
 # 最大递归深度 默认999
 from novels.so_novles import so_so
@@ -125,7 +127,7 @@ def content_f(book_name,url):
     content_txt = content.get('content').strip().split('\xa0'*4)
     print(title, url)
     # 存储
-    content_write(book_name, title, content_txt)
+    content_mysql(book_name, title, content_txt[0], netloc)
     # 获取下一章
     if content.get('next_chapter', None):
         # for k,v in content['next_chapter'].items():
@@ -133,6 +135,13 @@ def content_f(book_name,url):
         next_url = content['next_chapter'].get('下一章')
         if url != next_url:
             content_f(book_name, next_url)
+
+# 存储到mysql
+def content_mysql(book_name,chapter_name,content,source):
+    sql = "INSERT INTO novel (book_name, chapter_name, source, content) VALUES(%(book_name)s, %(chapter_name)s, %(source)s ,%(content)s);"
+    param = {"book_name": book_name,"chapter_name": chapter_name,"source": source, "content": content}
+    print(sql, param)
+    Config.mysql.insert(sql, param)
 
 # 内容存储
 def content_write(book_name, chapter_name, content):
@@ -183,11 +192,11 @@ if __name__ == '__main__':
     # url = "https://www.biqukan.com/38_38836/"
     # url = "https://www.booktxt.net/1_1562/"
     # url = "http://www.biquge.info/22_22533/"
-    url = "https://www.23txt.com/files/article/html/37/37532/"
-    netloc = urlparse(url).netloc
-    chapter_html = novels_chapter(url, netloc)
-    chapters = extract_chapters(url, chapter_html)
-    print(chapters)
+    # url = "https://www.23txt.com/files/article/html/37/37532/"
+    # netloc = urlparse(url).netloc
+    # chapter_html = novels_chapter(url, netloc)
+    # chapters = extract_chapters(url, chapter_html)
+    # print(chapters)
 
     #
     # chapters = []
@@ -210,10 +219,11 @@ if __name__ == '__main__':
     # url = 'https://www.biqukan.com/38_38836/497783246.html'
     # content_f(book_name, url)
 
-    # book_name = '凡人修仙传.txt'
-    # url = 'https://www.xsbiquge.com/1_1366/8673848.html'
-    # # https://www.xsbiquge.com/1_1366/8674818.html
-    # content_f(book_name, url)
+    book_name = '凡人修仙传.txt'
+    url = 'https://www.xsbiquge.com/1_1366/8673848.html'
+    # https://www.xsbiquge.com/1_1366/8674818.html
+    content_f(book_name, url)
+    Config.mysql.dispose()
 
     # html = download('https://www.biqukan.com/38_38836/542434096.html')
     # print(html)
